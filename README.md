@@ -44,7 +44,7 @@ class Counter extends React.Component {
 ```javascript
 import React, { useState } from "react";
 
-const Counter = () => {
+function Counter () {
   const [count, setCount] = useState(0);
   return (
     <div>
@@ -53,7 +53,7 @@ const Counter = () => {
       <button onClick={() => setCount(count => count - 1)}>Decrement</button>
     </div>
   );
-};
+}
 ```
 [![Edit class-state](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/determined-wiles-1ch81?fontsize=14)
 
@@ -86,17 +86,20 @@ class Clicker extends React.Component {
 ```javascript
 import React, { useCallback } from 'react';
 
-const Clicker = ({ id }) => (
-  <div onClick={useCallback(
-    (event) => {
-      alert(`You just clicked ${id}`);
-      event.stopPropagation();
-    },
-    [id]
-  )}>
-    Click me!
-  </div>
-);
+function Clicker ({ id }) {
+  return (
+    <div
+    } onClick={useCallback(
+      (event) => {
+        alert(`You just clicked ${id}`);
+        event.stopPropagation();
+      },
+      [id]
+    )}>
+      Click me!
+    </div>
+  );
+}
 ```
 [![Edit react-windowed-select](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/r4vx9oxmkq)
 
@@ -112,7 +115,7 @@ function fetchFakeData() {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve([{ id: 1, name: "Foo" }, { id: 2, name: "Bar" }]);
-    }, 500);
+    }, 1000);
   });
 }
 
