@@ -99,3 +99,73 @@ const Clicker = ({ id }) => (
 );
 ```
 [![Edit react-windowed-select](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/r4vx9oxmkq)
+
+## Component Lifecycle / Effects
+
+### componentDidMount / useEffect
+
+##### Classes
+```javascript
+import React from "react";
+
+function fetchFakeData() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve([{ id: 1, name: "Foo" }, { id: 2, name: "Bar" }]);
+    }, 500);
+  });
+}
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: []
+    };
+  }
+
+  componentDidMount() {
+    fetchFakeData().then(fakeData => this.setState({ data: fakeData }));
+  }
+
+  render() {
+    return (
+      <div>
+        {this.state.data.length === 0
+          ? "Loading..."
+          : this.state.data.map(({ id, name }) => <span key={id}>{name}</span>)}
+      </div>
+    );
+  }
+}
+```
+[![Edit class-componentDidMount](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/class-componentdidmount-k0354?fontsize=14)
+
+##### React Hooks
+```javascript
+function fetchFakeData() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve([{ id: 1, name: "Foo" }, { id: 2, name: "Bar" }]);
+    }, 1000);
+  });
+}
+
+function App() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetchFakeData().then(fakeData => setData(fakeData));
+  }, []);
+
+  return (
+    <div>
+      {data.length === 0
+        ? "Loading..."
+        : data.map(({ id, name }) => <span key={id}>{name}</span>)}
+    </div>
+  );
+}
+```
+[![Edit competent-euclid-fuhvx](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/competent-euclid-fuhvx?fontsize=14)
