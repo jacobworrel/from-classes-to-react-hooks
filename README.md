@@ -104,6 +104,8 @@ function Clicker({ id }) {
 
 ### componentDidMount / useEffect
 
+#### Making Initial API Call
+
 ##### Classes
 ```javascript
 import React from "react";
@@ -169,3 +171,112 @@ function App() {
 }
 ```
 [![Edit competent-euclid-fuhvx](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/competent-euclid-fuhvx?fontsize=14)
+
+### componentDidUpdate / useEffect
+
+#### Synchronizing State When Props Change
+
+##### Classes
+```javascript
+function makeRandNumWith(a, b) {
+  return Math.floor(Math.random() * b) + a;
+}
+
+class Parent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      parentCount: 0
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <span>Parent count: {this.state.parentCount}</span>
+        <button
+          onClick={() => this.setState({ parentCount: makeRandNumWith(0, 10) })}
+        >
+          Randomize & Sync
+        </button>
+        <Child parentCount={this.state.parentCount} />
+      </div>
+    );
+  }
+}
+
+class Child extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      childCount: props.parentCount
+    };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.parentCount !== this.props.parentCount) {
+      this.setState({ childCount: this.props.parentCount });
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <span>Child count: {this.state.childCount}</span>
+        <button
+          onClick={() =>
+            this.setState(prevState => ({
+              childCount: prevState.childCount + 1
+            }))
+          }
+        >
+          Increment Child Count
+        </button>
+      </div>
+    );
+  }
+}
+```
+[![Edit classes-componentDidUpdate](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/jolly-chaplygin-0o0qw?fontsize=14)
+
+##### React Hooks
+```javascript
+import { useEffect, useState } from "react";
+
+function makeRandNumWith(a, b) {
+  return Math.floor(Math.random() * b) + a;
+}
+
+function Parent() {
+  const [parentCount, setParentCount] = useState(0);
+
+  return (
+    <div>
+      <span>Parent count: {parentCount}</span>
+      <button onClick={() => setParentCount(makeRandNumWith(0, 10))}>
+        Randomize & Sync
+      </button>
+      <Child parentCount={parentCount} />
+    </div>
+  );
+}
+
+function Child({ parentCount }) {
+  const [childCount, setChildCount] = useState(parentCount);
+
+  useEffect(() => {
+    setChildCount(parentCount);
+  }, [parentCount]);
+  return (
+    <div>
+      <span>Child count: {childCount}</span>
+      <button onClick={() => setChildCount(x => x + 1)}>
+        Increment Child Count
+      </button>
+    </div>
+  );
+}
+```
+[![Edit react-hook-componentDidUpdate](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/autumn-wind-irzkn?fontsize=14)
