@@ -86,19 +86,16 @@ class Clicker extends React.Component {
 ```javascript
 import React, { useCallback } from 'react';
 
-function Clicker ({ id }) {
-  return (
-    <div
-    } onClick={useCallback(
-      (event) => {
-        alert(`You just clicked ${id}`);
-        event.stopPropagation();
-      },
-      [id]
-    )}>
-      Click me!
-    </div>
+function Clicker({ id }) {
+  const handleClick = useCallback(
+    event => {
+      alert(`You just clicked ${id}`);
+      event.stopPropagation();
+    },
+    [id]
   );
+
+  return <div onClick={handleClick}>Click me!</div>;
 }
 ```
 [![Edit react-windowed-select](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/r4vx9oxmkq)
