@@ -1,5 +1,5 @@
 # from-classes-to-react-hooks
-A guide to help migrate from ES6 class components to the [React Hooks API](https://reactjs.org/docs/hooks-intro.html).
+A guide/cheatsheet to help you migrate from ES6 class components to the [React Hooks API](https://reactjs.org/docs/hooks-intro.html).
 
 ## State
 
